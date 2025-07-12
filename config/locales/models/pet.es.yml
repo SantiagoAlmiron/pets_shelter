@@ -1,0 +1,23 @@
+es:
+  activerecord:
+    models:
+      pet: "Mascota"
+    attributes:
+      pet:
+        name: "Nombre"
+        age: "Edad"
+        about_pet: "Acerca de la mascota"
+        physical_characteristics: "Características físicas"
+        personality: "Personalidad"
+        sociable: "¿Sociable?"
+        weight: "Peso"
+        status: "Estado"
+        spot: "Lugar"
+        entry_date: "Fecha de ingreso"
+        exit_date: "Fecha de salida"
+        created_at: "Creado en"
+        updated_at: "Actualizado en"
+    errors:
+      models:
+        pet:
+          # This section is for pet-specific errors

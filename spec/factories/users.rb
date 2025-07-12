@@ -1,7 +1,10 @@
 FactoryBot.define do
   factory :user do
-    name { Faker::Name.unique.name }
-    email { Faker::Internet.unique.email }
-    password { Faker::Internet.password(min_length: 8) }
+    email do
+      username = Faker::Internet.unique.username(specifier: 5..10)
+      domain = EmailDomainValidator::VALID_DOMAINS.sample
+      "#{username}@#{domain}"
+    end
+    password { 'Abc123!' }
   end
 end

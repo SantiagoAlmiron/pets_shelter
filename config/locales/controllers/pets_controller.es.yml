@@ -1,0 +1,11 @@
+es:
+  pets:
+    create:
+      success: "Mascota creada correctamente"
+      failure: "Error al crear la mascota"
+    update:
+      success: "Mascota actualizada correctamente"
+      failure: "Error al actualizar la mascota"
+    destroy:
+      success: "Mascota eliminada correctamente"
+      failure: "Error al eliminar la mascota"

@@ -1,0 +1,76 @@
+.container.mt-4
+  %p#notice= notice
+
+  .card.shadow-lg
+    - if @pet.photo.attached?
+      = image_tag @pet.photo, class: "card-img-top img-fluid img-pet-show", alt: "Foto de #{@pet.name}"
+    - else
+      = image_tag "dog_placeholder.png",
+        class: "card-img-top img-fluid img-pet-show",
+        alt: "Foto de #{@pet.name}"
+
+
+    .card-body
+      %h2.card-title.text-center.mb-4= "Detalles de #{@pet.name}"
+
+      .row
+        .col-md-6
+          %p
+            %strong Edad:
+            = @pet.age
+
+          %p
+            %strong Peso:
+            = "#{@pet.weight} kg"
+
+          %p
+            %strong Sociable:
+            = @pet.sociable ? "Sí" : "No"
+
+          %p
+            %strong Canil:
+            = @pet.spot
+
+          %p
+            %strong Estado:
+            = @pet.status
+
+        .col-md-6
+          %p
+            %strong Fecha de ingreso:
+            = l(@pet.entry_date, format: :long)
+
+          %p
+            %strong Fecha de salida:
+            = @pet.exit_date.present? ? l(@pet.exit_date, format: :long) : "No aplica"
+
+          %p
+            %strong Creado el:
+            = l(@pet.created_at, format: :long)
+
+          %p
+            %strong Actualizado el:
+            = l(@pet.updated_at, format: :long)
+
+      %hr
+
+      .row
+        .col-md-6
+          %p
+            %strong Sobre el pasado:
+          %p.text-muted= @pet.about_pet
+        .col-md-6
+          %p
+            %strong Personalidad:
+          %p.text-muted= @pet.personality
+
+      %hr
+
+      %p
+        %strong Características físicas:
+      %p.text-muted= @pet.physical_characteristics
+
+      .d-flex.justify-content-between.mt-4
+        - unless current_user.user?
+          = link_to 'Editar', edit_pet_path(@pet), class: "btn btn-outline-primary rounded-pill"
+        = link_to 'Volver al listado', root_path, class: "btn btn-secondary rounded-pill"

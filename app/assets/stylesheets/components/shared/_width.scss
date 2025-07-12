@@ -1,0 +1,23 @@
+// Definiciones base (para todos los tamaños)
+.w-5 {
+  width: 5% !important;
+}
+.w-10 {
+  width: 10% !important;
+}
+.w-15 {
+  width: 15% !important;
+}
+
+// A partir de md (768px)
+@media (min-width: 768px) {
+  .w-md-5 {
+    width: 5% !important;
+  }
+  .w-md-10 {
+    width: 10% !important;
+  }
+  .w-md-15 {
+    width: 15% !important;
+  }
+}

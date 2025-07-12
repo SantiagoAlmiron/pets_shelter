@@ -1,0 +1,56 @@
+= simple_form_for pet, html: { class: "row g-3", multipart: true } do |f|
+  - if pet.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(pet.errors.count, "error")} impidieron guardar este registro:"
+      %ul
+        - pet.errors.full_messages.each do |message|
+          %li= message
+
+  .col-md-6
+    = f.input :name, label: "Nombre"
+
+  .col-md-6
+    = f.input :age, label: "Edad", input_html: { type: "number" }
+
+  .col-md-6
+    = f.input :weight, label: "Peso (kg)", input_html: { step: 0.01, type: "number" }
+
+  .col-md-6
+    = f.input :sociable, label: "¿Es sociable?", collection: [["Sí", true], ["No", false]], as: :select, include_blank: false
+
+  .col-md-6
+    = f.input :spot, label: "Canil"
+
+  .col-md-6
+    = f.input :status, label: "Estado"
+
+  .col-md-6
+    = f.input :entry_date, label: "Fecha de ingreso", as: :date
+
+  .col-md-6
+    = f.input :exit_date, label: "Fecha de salida", as: :date, include_blank: true
+
+  .col-12
+    = f.input :about_pet, label: "Sobre el pasado", as: :text, input_html: { rows: 3 }
+
+  .col-12
+    = f.input :personality, label: "Personalidad", as: :text, input_html: { rows: 3 }
+
+  .col-12
+    = f.input :physical_characteristics, label: "Características físicas", as: :text, input_html: { rows: 3 }
+
+  %label.form-label Foto actual
+  .col-12
+    - if pet.photo.attached?
+      = image_tag pet.photo, class: "img-fluid rounded mb-3 w-15 w-md-15", alt: "Foto de #{pet.name}"
+      %p.text-muted
+        Puedes subir una nueva foto para reemplazar la actual.
+    - else
+      %p.text-muted No hay foto cargada aún.
+
+    = f.input :photo, label: "Subir nueva foto", as: :file, input_html: { class: "form-control" }
+
+  .col-12.text-center
+    = f.button :submit, "Guardar", class: "btn btn-success rounded-pill w-50 mb-3"
+    %br
+    = link_to "Cancelar", pet.persisted? ? pet_path(pet) : pets_path, class: "btn btn-secondary rounded-pill w-50"
