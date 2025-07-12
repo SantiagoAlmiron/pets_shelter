@@ -1,11 +1,22 @@
-%h2 Forgot your password?
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email,
-      required: true,
-      autofocus: true,
-      input_html: { autocomplete: "email" }
-  .form-actions
-    = f.button :submit, "Send me reset password instructions"
-= render "devise/shared/links"
+.container.d-flex.align-items-center.justify-content-center.rounded.mt-5
+  .row.w-100
+    .col-12.col-sm-10.col-md-8.col-lg-6.mx-auto
+      .card.shadow.rounded-4.bg-light-subtle
+        .card-body.p-5
+          %h2.text-center.mb-5 ¿Olvidaste tu contraseña?
+
+          = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+            = f.error_notification
+
+            .form-inputs.my-4
+              = f.input :email,
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "email", class: "form-control rounded-pill w-100 w-sm-75 mx-auto mb-4" },
+                label_html: { class: "form-label text-center d-block mb-2" }
+
+            .form-actions.my-4.text-center
+              = f.button :submit, "Enviar instrucciones", class: "btn btn-primary rounded-pill w-100 w-sm-50"
+
+          .mt-5.text-center
+            = render "devise/shared/links"

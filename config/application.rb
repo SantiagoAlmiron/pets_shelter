@@ -18,6 +18,8 @@ module PetsShelter
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
+    config.i18n.default_locale = :es
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
@@ -30,5 +32,8 @@ module PetsShelter
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # config/environments/development.rb
+    config.hosts << /.*\.ngrok-free\.app/ if Rails.env.development?
   end
 end
