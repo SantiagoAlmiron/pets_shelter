@@ -1,6 +1,6 @@
 .navbar.navbar-expand-sm.navbar-light.navbar-lewagon.shadow-sm
   .container-fluid
-    = link_to "#", class: "navbar-brand" do
+    = link_to root_path, class: "navbar-brand" do
       = image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png"
     %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
@@ -15,7 +15,7 @@
             %a#navbarDropdown.avatar{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :href => "#"}
               = image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu"
             .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "navbarDropdown"}
-              = link_to "Action", "#", class: "dropdown-item"
+              = link_to "Nueva mascota", new_pet_path, class: "dropdown-item"
               = link_to "Another action", "#", class: "dropdown-item"
               = link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item"
         - else

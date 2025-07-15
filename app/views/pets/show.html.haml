@@ -1,4 +1,4 @@
-.container.mt-4
+.container.mt-4.mb-4
   %p#notice= notice
 
   .card.shadow-lg
@@ -71,6 +71,10 @@
       %p.text-muted= @pet.physical_characteristics
 
       .d-flex.justify-content-between.mt-4
-        - unless current_user.user?
-          = link_to 'Editar', edit_pet_path(@pet), class: "btn btn-outline-primary rounded-pill"
+        - if policy(@pet).update? || policy(@pet).destroy?
+          .btn-group.gap-2
+            - if policy(@pet).update?
+              = link_to 'Editar', edit_pet_path(@pet), class: "btn btn-outline-primary rounded-pill"
+            - if policy(@pet).destroy?
+              = button_to 'Eliminar', @pet, method: :delete, class: "btn btn-outline-danger rounded-pill", data: { confirm: "¿Estás seguro de que querés eliminar esta mascota?" }
         = link_to 'Volver al listado', root_path, class: "btn btn-secondary rounded-pill"

@@ -1,9 +1,7 @@
 class PetsController < ApplicationController
+  before_action :authorize_resource
   before_action :set_pet, only: %i[ show edit update destroy ]
-
-  def index
-    @pets = Pet.all
-  end
+  skip_before_action :authenticate_user!, only: :show
 
   def show
   end
@@ -35,13 +33,19 @@ class PetsController < ApplicationController
 
   def destroy
     if @pet.destroy!
-      redirect_to pets_path, notice: t('.success')
+      redirect_to root_path, notice: t('.success')
     else
-      redirect_to pets_path, alert: t('.failure')
+      redirect_to redirect_to @pet, alert: t('.failure')
     end
   end
 
   private
+
+  def authorize_resource
+    authorize(@pet || Pet)
+  rescue
+    redirect_to root_path, alert: t('pundit.not_authorized')
+  end
 
   def set_pet
     @pet = Pet.find(params[:id])

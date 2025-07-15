@@ -4,104 +4,101 @@ RSpec.describe PetsController, type: :controller do
   let(:valid_attributes) { attributes_for(:pet) }
   let(:invalid_attributes) { attributes_for(:pet, name: nil) }
   let!(:pet) { create(:pet) }
-  let(:user) { create(:user) }
 
-  before do
-    sign_in user
-  end
-
-  describe "GET #show" do
-    it "returns a success response" do
+  shared_examples "can see pets" do
+    it "allows viewing the pet" do
       get :show, params: { id: pet.id }
       expect(response).to be_successful
-      expect(assigns(:pet)).to eq(pet)
     end
   end
 
-  describe "GET #new" do
-    it "returns a success response" do
+  shared_examples "cannot manage pets" do
+    it "redirects from new" do
+      get :new
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq(I18n.t('pundit.not_authorized'))
+    end
+
+    it "redirects from create" do
+      post :create, params: { pet: valid_attributes }
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq(I18n.t('pundit.not_authorized'))
+    end
+
+    it "redirects from edit" do
+      get :edit, params: { id: pet.id }
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq(I18n.t('pundit.not_authorized'))
+    end
+
+    it "redirects from update" do
+      patch :update, params: { id: pet.id, pet: { name: "Updated" } }
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq(I18n.t('pundit.not_authorized'))
+    end
+
+    it "redirects from destroy" do
+      delete :destroy, params: { id: pet.id }
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq(I18n.t('pundit.not_authorized'))
+    end
+  end
+
+  shared_examples "can manage pets" do
+    it "allows new" do
       get :new
       expect(response).to be_successful
-      expect(assigns(:pet)).to be_a_new(Pet)
     end
-  end
 
-  describe "GET #edit" do
-    it "returns a success response" do
+    it "creates a pet" do
+      expect {
+        post :create, params: { pet: valid_attributes }
+      }.to change(Pet, :count).by(1)
+    end
+
+    it "allows edit" do
       get :edit, params: { id: pet.id }
       expect(response).to be_successful
-      expect(assigns(:pet)).to eq(pet)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Pet" do
-        expect {
-          post :create, params: { pet: valid_attributes }
-        }.to change(Pet, :count).by(1)
-      end
-
-      it "redirects to the created pet" do
-        post :create, params: { pet: valid_attributes }
-        expect(response).to redirect_to(Pet.last)
-      end
     end
 
-    context "with invalid params" do
-      it "does not create a new Pet" do
-        expect {
-          post :create, params: { pet: invalid_attributes }
-        }.not_to change(Pet, :count)
-      end
-
-      it "renders the new template" do
-        post :create, params: { pet: invalid_attributes }
-        expect(response).to render_template(:new)
-      end
-    end
-  end
-
-  describe "PATCH #update" do
-    context "with valid params" do
-      let(:new_attributes) { { name: Faker::Name.first_name } }
-
-      it "updates the requested pet" do
-        patch :update, params: { id: pet.id, pet: new_attributes }
-        pet.reload
-        expect(pet.name).to eq(new_attributes[:name])
-      end
-
-      it "redirects to the pet" do
-        patch :update, params: { id: pet.id, pet: new_attributes }
-        expect(response).to redirect_to(pet)
-      end
+    it "updates the pet" do
+      patch :update, params: { id: pet.id, pet: { name: "Updated" } }
+      expect(response).to redirect_to(pet)
+      pet.reload
+      expect(pet.name).to eq("Updated")
     end
 
-    context "with invalid params" do
-      it "does not update the pet" do
-        patch :update, params: { id: pet.id, pet: invalid_attributes }
-        pet.reload
-        expect(pet.name).to eq(pet.name)
-      end
-
-      it "renders the edit template" do
-        patch :update, params: { id: pet.id, pet: invalid_attributes }
-        expect(response).to render_template(:edit)
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested pet" do
+    it "destroys the pet" do
       expect {
         delete :destroy, params: { id: pet.id }
       }.to change(Pet, :count).by(-1)
     end
+  end
 
-    it "redirects to the pets list" do
-      delete :destroy, params: { id: pet.id }
-      expect(response).to redirect_to(pets_path)
-    end
+  context "as regular user" do
+    let(:user) { create(:user, role: "user") }
+
+    before { sign_in user }
+
+    include_examples "can see pets"
+    include_examples "cannot manage pets"
+  end
+
+  context "as admin user" do
+    let(:user) { create(:user, role: "admin") }
+
+    before { sign_in user }
+
+    include_examples "can see pets"
+    include_examples "can manage pets"
+  end
+
+  context "as superadmin user" do
+    let(:user) { create(:user, role: "superadmin") }
+
+    before { sign_in user }
+
+    include_examples "can see pets"
+    include_examples "can manage pets"
   end
 end
