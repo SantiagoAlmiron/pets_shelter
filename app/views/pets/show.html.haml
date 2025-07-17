@@ -54,6 +54,21 @@
 
       %hr
 
+      - if @pet.sponsors.present?
+        .row.mt-3
+          .col-md-12
+        %p
+          %strong Emails de los padrinos:
+        %ul
+          - @pet.sponsors.each do |sponsor|
+            %li= sponsor.email
+      - else
+        .row.mt-3
+          .col-md-12
+        %p.text-muted= "#{@pet.name} no tiene padrinos."
+
+      %hr
+
       .row
         .col-md-6
           %p

@@ -48,7 +48,7 @@ class PetsController < ApplicationController
   end
 
   def set_pet
-    @pet = Pet.find(params[:id])
+    @pet = Pet.includes(:sponsors).find(params[:id])
   end
 
   def pet_params

@@ -15,6 +15,9 @@ class User < ApplicationRecord
   validates :email, email_domain: true
   validates :password, password_complexity: true
 
+  has_many :sponsorships, foreign_key: :user_id, class_name: 'Sponsorship', dependent: :destroy
+  has_many :sponsored_pets, through: :sponsorships, source: :pet
+
   def block!
     update(blocked_at: Time.current)
   end
