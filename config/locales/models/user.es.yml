@@ -1,4 +1,11 @@
 es:
+  user:
+    roles:
+      visitor: "Visitante"
+      sponsorship: "Padrino"
+      volunteer: "Voluntario"
+      admin: "Administrador"
+      superadmin: "Superadministrador"
   activerecord:
     models:
       user: "Usuario"

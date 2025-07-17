@@ -1,0 +1,55 @@
+.container.mt-4.mb-4
+  %p#notice= notice
+
+  .card.shadow-lg
+    .card-body
+      %h2.card-title.text-center.mb-4= "Detalles de #{@user.email}"
+
+      .row
+        .col-md-6
+          %p
+            %strong Rol:
+            = user_role_traduction(@user).humanize
+
+          %p
+            %strong Ingresos totales:
+            = @user.sign_in_count
+
+          %p
+            %strong Último ingreso:
+            = @user.last_sign_in_at&.strftime("%d/%m/%Y %H:%M") || "Nunca"
+
+          %p
+            %strong IP actual:
+            = @user.current_sign_in_ip || "No registrada"
+
+          %p
+            %strong IP anterior:
+            = @user.last_sign_in_ip || "No registrada"
+
+        .col-md-6
+          %p
+            %strong Estado:
+            - if @user.blocked_at?
+              %span.badge.bg-danger.rounded-pill Bloqueado
+            - else
+              %span.badge.bg-success.rounded-pill Activo
+
+          %p
+            %strong Fecha de creación:
+            = l(@user.created_at, format: :long)
+
+          %p
+            %strong Última actualización:
+            = l(@user.updated_at, format: :long)
+
+      %hr
+
+      .d-flex.justify-content-between.mt-4.flex-wrap
+        .btn-group.gap-2
+          - if @user.blocked_at? && !@user.superadmin?
+            = button_to 'Desbloquear', unblock_admin_user_path(@user), method: :patch, class: "btn btn-outline-success rounded-pill", form: { class: "d-inline" }
+          - else
+            = button_to 'Bloquear', block_admin_user_path(@user), method: :patch, class: "btn btn-outline-danger rounded-pill", form: { class: "d-inline" }
+
+        = link_to 'Volver al listado', admin_users_path, class: "btn btn-secondary rounded-pill"

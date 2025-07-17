@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_12_215635) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_15_225751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_12_215635) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "adoptions", force: :cascade do |t|
+    t.bigint "pet_id", null: false
+    t.bigint "user_id", null: false
+    t.string "type"
+    t.jsonb "adopter_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pet_id"], name: "index_adoptions_on_pet_id"
+    t.index ["user_id"], name: "index_adoptions_on_user_id"
+  end
+
   create_table "pets", force: :cascade do |t|
     t.string "name"
     t.integer "age"
@@ -69,8 +80,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_12_215635) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "locked_at"
-    t.string "role", default: "user"
+    t.datetime "blocked_at"
+    t.string "role", default: "visitor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -79,4 +90,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_12_215635) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "adoptions", "pets"
+  add_foreign_key "adoptions", "users"
 end

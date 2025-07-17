@@ -10,6 +10,7 @@ es:
       already_authenticated: "Ya has iniciado sesión."
       inactive: "Tu cuenta aún no está activada."
       invalid: "%{authentication_keys} o contraseña inválidos."
+      blocked: "Tu cuenta ha sido bloqueada. Por favor, contacta al administrador."
       locked: "Tu cuenta está bloqueada."
       last_attempt: "Tienes un intento más antes de que tu cuenta sea bloqueada."
       not_found_in_database: "%{authentication_keys} o contraseña inválidos."

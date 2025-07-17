@@ -1,0 +1,6 @@
+---
+es:
+  admin:
+    dashboard:
+      index:
+        unauthorized: "No tienes permiso para acceder a esta página."

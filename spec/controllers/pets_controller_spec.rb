@@ -76,7 +76,7 @@ RSpec.describe PetsController, type: :controller do
   end
 
   context "as regular user" do
-    let(:user) { create(:user, role: "user") }
+    let(:user) { create(:user) }
 
     before { sign_in user }
 
