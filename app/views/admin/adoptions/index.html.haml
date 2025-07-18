@@ -1,0 +1,54 @@
+.container.mt-5
+  %h2.mb-4.text-center Mascotas en la Plataforma
+
+  / Tabla solo visible en md en adelante
+  .d-none.d-md-block
+    .table-responsive
+      %table.table.table-striped.table-hover.align-middle.rounded.shadow-sm.overflow-hidden
+        %thead.table-light
+          %tr
+            %th.py-3 Nombre
+            %th.py-3 Edad
+            %th.py-3 ¿Adoptado?
+            %th.py-3 ¿Padrinos?
+            %th.text-center.py-3 Acciones
+        %tbody
+          - @pets.each do |pet|
+            %tr
+              %td.py-2= pet.name
+              %td.py-2= pet.age
+              %td.py-2= "Sin adoptar"
+              %td.py-2
+                - if pet.sponsorships.any?
+                  %span.badge.bg-success.rounded-pill.w-100.text-center Sí
+                - else
+                  %span.badge.bg-secondary.rounded-pill.w-100.text-center No
+              %td.text-center.py-2
+                .d-flex.justify-content-center.gap-2
+                  .d-grid(style="width: 120px;")
+                    = link_to "Ver",  edit_admin_adoption_path(pet), class: "btn btn-sm btn-primary rounded-pill w-100"
+
+  / Tarjetas solo visibles en mobile
+  .d-block.d-md-none
+    - @pets.each do |pet|
+      .card.mb-3.shadow-sm
+        .card-body
+          %h5.card-title.mb-3= pet.name
+
+          %p.mb-1
+            %strong Edad:
+            = pet.age
+
+          %p.mb-1
+            %strong Adopciones:
+            = "Sin adoptar"
+
+          %p.mb-1
+            %strong Padrinos:
+            - if pet.sponsorships.any?
+              %span.badge.bg-success.rounded-pill Sí
+            - else
+              %span.badge.bg-secondary.rounded-pill No
+
+          .d-flex.justify-content-start.gap-2.flex-wrap.mt-3
+            = link_to "Ver",  edit_admin_adoption_path(pet), class: "btn btn-sm btn-primary rounded-pill flex-fill"

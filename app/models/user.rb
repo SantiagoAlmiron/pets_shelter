@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :sponsorships, foreign_key: :user_id, class_name: 'Sponsorship', dependent: :destroy
   has_many :sponsored_pets, through: :sponsorships, source: :pet
 
+  scope :not_blocked, -> { where(blocked_at: nil) }
+
   def block!
     update(blocked_at: Time.current)
   end

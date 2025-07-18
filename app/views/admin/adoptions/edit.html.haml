@@ -1,0 +1,47 @@
+.container.mt-5.mb-4
+  - content_for :title, "Padrinos y adoptantes de #{@pet.name}"
+
+  .row.mb-4
+    .col-12.col-md-4.text-center
+      - if @pet.photo.attached?
+        = image_tag url_for(@pet.photo), class: 'img-fluid rounded shadow-sm mb-2', alt: @pet.name
+      - else
+        %p.text-muted Sin foto disponible
+    .col-12.col-md-8
+      %h2 Padrinos y adoptantes de #{@pet.name}
+      %p
+        %strong Nombre:
+        = @pet.name
+      %p
+        %strong Edad:
+        = @pet.age
+      %p
+        %strong Personalidad:
+        = @pet.personality
+
+  = simple_form_for @pet, url: admin_adoption_path(@pet), method: :put, data: { controller: 'sponsor-filter' } do |f|
+    .row
+      .col-12.col-md-6.mb-3
+        = f.input :adopter_id,
+                  label: 'Adoptante',
+                  collection: User.all.pluck(:email, :id),
+                  selected: @pet.adopter&.id,
+                  include_blank: 'Seleccionar',
+                  input_html: { name: 'adopter_id', class: 'form-select rounded-pill' }
+
+      .col-12.col-md-6.mb-3
+        %label.form-label Filtrar padrinos
+        %input.form-control.rounded-pill{ type: 'text', placeholder: 'Escribí para buscar...', data: { sponsor_filter_target: "input", action: "input->sponsor-filter#filter" } }
+
+        %label.form-label.mt-3 Padrinos
+        %div{ data: { sponsor_filter_target: "list" }, style: "max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 0.5rem; border-radius: 0.25rem;" }
+          - User.all.each do |user|
+            %div.form-check.mb-1
+              - checked = @pet.sponsors.pluck(:id).include?(user.id)
+              %input.form-check-input{ type: "checkbox", name: "sponsor_ids[]", id: "sponsor_#{user.id}", value: user.id, checked: checked, data: { sponsor_filter_target: "checkbox" } }
+              %label.form-check-label{ for: "sponsor_#{user.id}" }= user.email
+
+    .row
+      .col-12
+        = f.button :submit, 'Guardar', class: 'btn btn-primary w-100 rounded-pill'
+
