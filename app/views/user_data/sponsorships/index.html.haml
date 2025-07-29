@@ -1,0 +1,27 @@
+.container.py-5
+  %h2.text-center.mb-5
+    Tus apadrinamientos
+    %span{ style: "color: #e25555;" } ❤️
+  .row
+    - @sponsorships.each do |sponsored_pet|
+      .col-12.col-md-6.col-lg-4.d-flex.mb-4
+        .card.mb-3.shadow-sm.h-100
+          .row.g-0.h-100
+            .col-md-4
+              - if sponsored_pet.photo.attached?
+                = image_tag sponsored_pet.photo, class: "img-fluid rounded-start", alt: "Foto de #{sponsored_pet.name}", style: "width: 150px; height: 150px; object-fit: cover;"
+              - else
+                = image_tag "dog_placeholder.png", class: "img-fluid rounded-start", alt: "Foto de #{sponsored_pet.name}"
+            .col-md-8
+              .card-body.d-flex.flex-column.h-100
+                %h5.card-title= sponsored_pet.name
+                %p.card-text
+                  %strong Edad aproximada:
+                  = sponsored_pet.age
+                %p.card-text
+                  %strong Sociable:
+                  = sponsored_pet.sociable ? "Sí" : "No"
+                %p.card-text
+                  %strong Características:
+                  = sponsored_pet.physical_characteristics
+                = link_to "Ver más", pet_path(sponsored_pet), class: "btn btn-outline-primary btn-sm mt-2 rounded-pill mt-auto"

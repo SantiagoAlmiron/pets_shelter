@@ -1,0 +1,18 @@
+.container.mt-5
+  %h2.mb-4.text-center Mi información
+
+  .row.row-cols-1.row-cols-sm-2.row-cols-md-2.row-cols-lg-3.g-4
+    = link_to  user_data_sponsorships_path, class: "col text-decoration-none" do
+      .card.h-100.shadow-sm.hover-shadow.transition.rounded-3
+        .card-body.text-center
+          %h5.card-title.mb-0 🐶 Mis apadrinamientos
+
+    = link_to '#', class: "col text-decoration-none" do
+      .card.h-100.shadow-sm.hover-shadow.transition.rounded-3
+        .card-body.text-center
+          %h5.card-title.mb-0 🐶 Mis adopciones
+
+    = link_to '#', class: "col text-decoration-none" do
+      .card.h-100.shadow-sm.hover-shadow.transition.rounded-3
+        .card-body.text-center
+          %h5.card-title.mb-0 👤 Información personal

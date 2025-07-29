@@ -16,4 +16,9 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :user_data do
+    root to: "base#index"
+    resources :sponsorships, only: :index
+  end
 end

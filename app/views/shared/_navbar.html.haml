@@ -15,7 +15,7 @@
               = image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu"
             .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "navbarDropdown"}
               = link_to "Nueva mascota", new_pet_path, class: "dropdown-item"
-              = link_to "Another action", "#", class: "dropdown-item"
+              = link_to "Mi información", user_data_root_path, class: "dropdown-item"
               = link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item"
         - else
           %li.nav-item
