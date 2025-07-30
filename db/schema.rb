@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_15_225751) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_29_235839) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,30 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_15_225751) do
     t.index ["user_id"], name: "index_adoptions_on_user_id"
   end
 
+  create_table "identities", force: :cascade do |t|
+    t.string "name", limit: 50
+    t.string "surname", limit: 50
+    t.string "gender", limit: 20
+    t.date "birth_date"
+    t.string "birth_state", limit: 100
+    t.string "phone", limit: 20
+    t.string "dni", limit: 20
+    t.string "street_name", limit: 100
+    t.string "street_number", limit: 10
+    t.string "apartment", limit: 10
+    t.string "floor", limit: 10
+    t.string "city", limit: 100
+    t.string "postal_code", limit: 10
+    t.boolean "accepted_terms", default: false, null: false
+    t.boolean "has_other_pets", default: false, null: false
+    t.boolean "has_children", default: false, null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dni"], name: "index_identities_on_dni", unique: true
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
   create_table "pets", force: :cascade do |t|
     t.string "name"
     t.integer "age"
@@ -92,4 +116,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_15_225751) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adoptions", "pets"
   add_foreign_key "adoptions", "users"
+  add_foreign_key "identities", "users"
 end

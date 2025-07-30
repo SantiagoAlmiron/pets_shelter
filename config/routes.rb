@@ -20,5 +20,6 @@ Rails.application.routes.draw do
   namespace :user_data do
     root to: "base#index"
     resources :sponsorships, only: :index
+    resources :identities, except: %i(index destroy)
   end
 end

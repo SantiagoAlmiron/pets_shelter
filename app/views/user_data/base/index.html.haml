@@ -12,7 +12,7 @@
         .card-body.text-center
           %h5.card-title.mb-0 🐶 Mis adopciones
 
-    = link_to '#', class: "col text-decoration-none" do
+    = link_to personal_information_path(current_user), class: "col text-decoration-none" do
       .card.h-100.shadow-sm.hover-shadow.transition.rounded-3
         .card-body.text-center
           %h5.card-title.mb-0 👤 Información personal

@@ -1,0 +1,63 @@
+= simple_form_for [:user_data, @identity], html: { class: "row g-3" } do |f|
+  - if @identity.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(@identity.errors.count, "error")} impidieron guardar este registro:"
+      %ul
+        - @identity.errors.full_messages.each do |message|
+          %li= message
+
+  .col-md-6
+    = f.input :name, label: "Nombre"
+
+  .col-md-6
+    = f.input :surname, label: "Apellido"
+
+  .col-md-6
+    = f.input :gender, label: "Género", collection: [['Masculino', 'male'], ['Femenino', 'female'], ['Otro', 'other']], include_blank: true
+
+  .col-md-6
+    = f.input :birth_date, label: "Fecha de nacimiento", as: :date, start_year: Date.today.year - 99, end_year: Date.today.year
+
+  .col-md-6
+    = f.input :birth_state, label: "Provincia de nacimiento"
+
+  .col-md-6
+    = f.input :phone, label: "Teléfono"
+
+  .col-md-6
+    = f.input :dni, label: "DNI"
+
+  .col-md-6
+    = f.input :email, label: "Correo electrónico" if @identity.respond_to?(:email)
+
+  .col-md-6
+    = f.input :street_name, label: "Calle"
+
+  .col-md-3
+    = f.input :street_number, label: "Número"
+
+  .col-md-3
+    = f.input :floor, label: "Piso", input_html: { maxlength: 10 }
+
+  .col-md-3
+    = f.input :apartment, label: "Departamento", input_html: { maxlength: 10 }
+
+  .col-md-6
+    = f.input :city, label: "Ciudad"
+
+  .col-md-6
+    = f.input :postal_code, label: "Código postal"
+
+  .row.mt-3
+    .d-flex.justify-content-between
+      .col-md-4
+        = f.input :has_other_pets, label: "¿Tiene otras mascotas?", as: :boolean, inline_label: "Sí"
+      .col-md-4
+        = f.input :has_children, label: "¿Tiene hijos/as?", as: :boolean, inline_label: "Sí"
+      .col-md-4
+        = f.input :accepted_terms, label: ("Acepta " + link_to("términos y condiciones", "https://google.com", target: "_blank", rel: "noopener")).html_safe, as: :boolean, inline_label: "Sí"
+
+  .col-12.text-center
+    = f.button :submit, "Guardar", class: "btn btn-success rounded-pill w-50 mb-3"
+    %br
+    = link_to "Cancelar", user_data_root_path, class: "btn btn-secondary rounded-pill w-50"

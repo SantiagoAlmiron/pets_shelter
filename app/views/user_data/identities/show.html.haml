@@ -1,0 +1,91 @@
+.container.mt-5
+  .row.justify-content-center
+    .col-lg-10
+      .card.shadow-lg.rounded-4
+        .card-body
+          %h2.text-center.mb-4 Datos personales
+
+          .row.g-3
+            .col-md-6
+              %strong Nombre:
+              %p= @identity.name.capitalize.presence || "—"
+
+            .col-md-6
+              %strong Apellido:
+              %p= @identity.surname.capitalize.presence || "—"
+
+            .col-md-6
+              %strong Género:
+              %p
+                - case @identity.gender
+                - when "male"
+                  Masculino
+                - when "female"
+                  Femenino
+                - when "other"
+                  Otro
+                - else
+                  —
+
+            .col-md-6
+              %strong Fecha de nacimiento:
+              %p= l(@identity.birth_date, format: :long) if @identity.birth_date
+
+            .col-md-6
+              %strong Provincia de nacimiento:
+              %p= @identity.birth_state.titleize.presence || "—"
+
+            .col-md-6
+              %strong Teléfono:
+              %p= @identity.phone.presence || "—"
+
+            .col-md-6
+              %strong DNI:
+              %p= @identity.dni.presence || "—"
+
+            - if @identity.respond_to?(:email)
+              .col-md-6
+                %strong Correo electrónico:
+                %p= @identity.email.presence || "—"
+
+            .col-md-6
+              %strong Calle:
+              %p= @identity.street_name.capitalize.presence || "—"
+
+            .col-md-3
+              %strong Número:
+              %p= @identity.street_number.presence || "—"
+
+            .col-md-3
+              %strong Piso:
+              %p= @identity.floor.presence || "—"
+
+            .col-md-3
+              %strong Departamento:
+              %p= @identity.apartment.presence || "—"
+
+            .col-md-6
+              %strong Ciudad:
+              %p= @identity.city.capitalize.presence || "—"
+
+            .col-md-6
+              %strong Código postal:
+              %p= @identity.postal_code.presence || "—"
+
+            .row.mt-3
+              .col-md-4
+                %strong ¿Tiene otras mascotas?
+                %p= @identity.has_other_pets? ? "Sí" : "No"
+
+              .col-md-4
+                %strong ¿Tiene hijos/as?
+                %p= @identity.has_children? ? "Sí" : "No"
+
+              .col-md-4
+                %strong ¿Aceptó términos?
+                %p= @identity.accepted_terms? ? "Sí" : "No"
+
+          .col-12.text-center.mt-4
+            = link_to "Editar", '#', class: "btn btn-primary rounded-pill w-50 mb-3"
+            %br
+            = link_to "Volver", user_data_root_path, class: "btn btn-secondary rounded-pill w-50"
